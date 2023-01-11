@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:decorated_icon/decorated_icon.dart';
 
 void main() {
   runApp(const MyApp());
@@ -11,105 +12,149 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
       theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // Try running your application with "flutter run". You'll see the
-        // application has a blue toolbar. Then, without quitting the app, try
-        // changing the primarySwatch below to Colors.green and then invoke
-        // "hot reload" (press "r" in the console where you ran "flutter run",
-        // or simply save your changes to "hot reload" in a Flutter IDE).
-        // Notice that the counter didn't reset back to zero; the application
-        // is not restarted.
-        primarySwatch: Colors.blue,
-      ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
-    );
-  }
-}
-
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({Key? key, required this.title}) : super(key: key);
-
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
-
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
-
-  final String title;
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
-    return Scaffold(
-      appBar: AppBar(
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title),
-      ),
-      body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
-        child: Column(
-          // Column is also a layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Invoke "debug painting" (press "p" in the console, choose the
-          // "Toggle Debug Paint" action from the Flutter Inspector in Android
-          // Studio, or the "Toggle Debug Paint" command in Visual Studio Code)
-          // to see the wireframe for each widget.
-          //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
+          colorScheme: ColorScheme.light().copyWith(
+            primary: Color(0xFFFFE7ED),
+          ),
+          scaffoldBackgroundColor: Colors.white //Color(0xFF11061B),
+          ),
+      home: DefaultTabController(
+        length: 3,
+        child: Scaffold(
+          appBar: AppBar(
+            //toolbarHeight: 140.0,
+            elevation: 2.0,
+            shadowColor: Colors.black,
+            title: Text(
+              "Textagram",
+              textAlign: TextAlign.left,
+              style: TextStyle(
+                  fontFamily: 'RubikVinyl',
+                  fontSize: 30.0,
+                  color: Colors.black),
             ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline4,
+            bottom: TabBar(
+              unselectedLabelColor: Color(0xFF2F002C),
+              labelColor: Color(0xFF8F09A2),
+              tabs: [
+                Tab(
+                  text: "Scan",
+                ),
+                Tab(
+                  text: "History",
+
+                  //style: TextStyle(color: Colors.black, fontSize: 20.0),
+                ),
+                Tab(
+                  text: "Search on Google",
+                )
+              ],
             ),
-          ],
+          ),
+          body: SafeArea(
+              child: Column(
+            //mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Center(
+                child: Container(
+                  //alignment: Alignment.center,
+                  margin: EdgeInsets.only(left: 10.0, top: 60.0),
+                  width: 270.0,
+                  height: 270.0,
+                  color: Color(0xFFD9F5FE),
+                ),
+              ),
+              SizedBox(
+                height: 20.0,
+              ),
+              Row(
+                children: [
+                  Container(
+                    width: 270.0,
+                    height: 150.0,
+                    // color: Color(0xFFFFE7ED),
+                    margin: EdgeInsets.only(left: 75.0),
+                    decoration: BoxDecoration(
+                        color: Color(0xFFFFE7ED),
+                        borderRadius: BorderRadius.circular(12.0)),
+                  ),
+                  /*SizedBox.expand(
+                    child: DraggableScrollableSheet(
+                      builder: (BuildContext context,
+                          ScrollController scrollController) {
+                        return Container(
+                          color: Color(0xFFD9F5FE),
+                          child: ListView.builder(
+                            controller: scrollController,
+                            itemCount: 25,
+                            itemBuilder: (BuildContext context, int index) {
+                              return ListTile(title: Text('Item $index'));
+                            },
+                          ),
+                        );
+                      },
+                    ),
+                  ),*/
+                  SizedBox(
+                    width: 16.0,
+                  ),
+                  Container(
+                    //alignment: Alignment.bottomRight,
+                    margin: EdgeInsets.only(top: 62.0),
+                    //height: 350.0,
+                    //width: 55.0,
+                    color: Colors.white, //Color(0xFFD9F5FE),
+                    //child: Column(
+                    //children: [
+                    child: Column(
+                      children: [
+                        DecoratedIcon(
+                          Icons.photo,
+                          color: Color(0xFFD9F5FE), //Colors.purple,
+                          size: 50.0,
+                          shadows: [
+                            BoxShadow(
+                              blurRadius: 42.0,
+                              color: Colors.black,
+                            ),
+                            BoxShadow(
+                              blurRadius: 12.0,
+                              color: Colors.white,
+                            ),
+                          ],
+                        ),
+
+                        /*Icon(
+                        Icons.photo,
+                        color: Colors.blueAccent,
+                      ),*/
+                        SizedBox(
+                          height: 32.0,
+                        ),
+                        DecoratedIcon(
+                          Icons.camera_alt,
+                          color: Color(0xFFD9F5FE),
+                          size: 50.0,
+                          shadows: [
+                            BoxShadow(
+                              blurRadius: 42.0,
+                              color: Colors.black,
+                            ),
+                            BoxShadow(
+                              blurRadius: 12.0,
+                              color: Colors.white,
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          )),
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
 }
