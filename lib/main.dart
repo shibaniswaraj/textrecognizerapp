@@ -1,12 +1,31 @@
+// ignore: avoid_web_libraries_in_flutter
+import 'dart:io';
+import 'dart:async';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:decorated_icon/decorated_icon.dart';
+import 'package:google_ml_kit/google_ml_kit.dart';
+import 'package:image_picker/image_picker.dart';
+
 
 void main() {
   runApp(const MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({Key? key}) : super(key: key);
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  bool textScanning = false;
+  File? pickedImage;
+  bool isPicked = false;
+  String scannedText = "";
+  ImagePicker picker = ImagePicker();
+  File? selectedImage;
 
   // This widget is the root of your application.
   @override
@@ -55,17 +74,19 @@ class MyApp extends StatelessWidget {
               child: Column(
             //mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
+
               Center(
-                child: Container(
+                child: pickedImage != null ? Image.file(pickedImage!, width:270.0, height:270.0, fit:BoxFit.contain): Container(
                   //alignment: Alignment.center,
                   margin: EdgeInsets.only(left: 10.0, top: 60.0),
                   width: 270.0,
                   height: 270.0,
                   color: Color(0xFFD9F5FE),
                 ),
+
               ),
               SizedBox(
-                height: 20.0,
+                height: 15.0,
               ),
               Row(
                 children: [
@@ -77,6 +98,9 @@ class MyApp extends StatelessWidget {
                     decoration: BoxDecoration(
                         color: Color(0xFFFFE7ED),
                         borderRadius: BorderRadius.circular(12.0)),
+                child: Align(
+                  alignment: Alignment.center,
+                  child: Text(scannedText))
                   ),
                   /*SizedBox.expand(
                     child: DraggableScrollableSheet(
@@ -108,44 +132,51 @@ class MyApp extends StatelessWidget {
                     //children: [
                     child: Column(
                       children: [
-                        DecoratedIcon(
-                          Icons.photo,
-                          color: Color(0xFFD9F5FE), //Colors.purple,
-                          size: 50.0,
-                          shadows: [
-                            BoxShadow(
-                              blurRadius: 42.0,
-                              color: Colors.black,
-                            ),
-                            BoxShadow(
-                              blurRadius: 12.0,
-                              color: Colors.white,
-                            ),
-                          ],
+                        IconButton(
+                            onPressed: () async {
+                              final ImagePicker _picker = ImagePicker();
+                              final File image =
+                              await ImagePicker.pickImage(source: ImageSource.camera);
+                              if (image != null) {
+                                pickedImage = File(image.path);
+                                setState(() {
+                                  isPicked = true;
+                                });
+                                getText(image);
+                              }
+                            },
+                          icon: const Icon(Icons.camera_alt,
+                          )
                         ),
+                        SizedBox(
+                          width: 16.0,
+                          height: 16.0,
+                        ),
+                        IconButton(
+                            onPressed: () async {
+                              final ImagePicker _picker = ImagePicker();
+                              final File image =
+                              await ImagePicker.pickImage(source: ImageSource.gallery);
+                              if (image != null) {
+                                pickedImage = File(image.path);
+                                setState(() {
+                                  isPicked = true;
+                                });
+                                getText(image);
+                              }
+                              else {
+                                return;
+                              }
+                            },
+                            icon: const Icon(Icons.image,
+                            )
+                        )
 
                         /*Icon(
                         Icons.photo,
                         color: Colors.blueAccent,
                       ),*/
-                        SizedBox(
-                          height: 32.0,
-                        ),
-                        DecoratedIcon(
-                          Icons.camera_alt,
-                          color: Color(0xFFD9F5FE),
-                          size: 50.0,
-                          shadows: [
-                            BoxShadow(
-                              blurRadius: 42.0,
-                              color: Colors.black,
-                            ),
-                            BoxShadow(
-                              blurRadius: 12.0,
-                              color: Colors.white,
-                            ),
-                          ],
-                        ),
+
                       ],
                     ),
                   ),
@@ -157,4 +188,21 @@ class MyApp extends StatelessWidget {
       ),
     );
   }
+  void getText(File img) async {
+    final inputImage = InputImage.fromFilePath(img.path);
+    final textDetector = GoogleMlKit.vision.textDetector();
+    RecognisedText recognisedText = await textDetector.processImage(inputImage);
+    await textDetector.close();
+    scannedText = "";
+    for(TextBlock block in recognisedText.blocks) {
+      for(TextLine line in block.lines) {
+        scannedText = scannedText + line.text + "\n";
+
+      }
+    }
+    textScanning = false;
+    setState(() { });
+  }
+
 }
+
