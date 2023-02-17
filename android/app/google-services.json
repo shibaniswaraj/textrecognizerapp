@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "681752108908",
+    "project_id": "text-recognizer-ccf3d",
+    "storage_bucket": "text-recognizer-ccf3d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:681752108908:android:2a1550be0c6eed38f09d49",
+        "android_client_info": {
+          "package_name": "com.example.textrecognizer"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "681752108908-384jconhomdejphgsph8ms7ga1qt79rv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDcNIi9QFu30jSWe5iNtPCPO5HAuL31rng"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "681752108908-384jconhomdejphgsph8ms7ga1qt79rv.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
