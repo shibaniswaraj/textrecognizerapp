@@ -1,12 +1,62 @@
+// ignore: avoid_web_libraries_in_flutter
+import 'dart:io';
+import 'dart:async';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:decorated_icon/decorated_icon.dart';
+import 'package:google_ml_kit/google_ml_kit.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:url_launcher/url_launcher.dart';
+
 
 void main() {
   runApp(const MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class GoogleSearch extends StatelessWidget {
+  final String searchText;
+  const GoogleSearch({super.key, this.searchText = ""});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      child: TextButton(
+        child: Text("Google search",
+            style: const TextStyle(
+                color: Colors.black,
+                fontWeight: FontWeight.bold
+            )),
+        style: TextButton.styleFrom(
+          textStyle: const TextStyle(fontSize: 20),
+        ),
+        onPressed: () {
+          String url = "https://www.google.com/search?q=$searchText";
+          launch(url);
+        },
+      ),
+    decoration: BoxDecoration(
+      color: Colors.blue[100],
+      border: Border.all(width: 1,color: Colors.black),
+      borderRadius: const BorderRadius.all(Radius.circular(20)),
+    )
+    );
+  }
+}
+
+class MyApp extends StatefulWidget {
   const MyApp({Key? key}) : super(key: key);
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  bool textScanning = false;
+  File? pickedImage;
+  bool isPicked = false;
+  String scannedText = "";
+  ImagePicker picker = ImagePicker();
+  File? selectedImage;
 
   // This widget is the root of your application.
   @override
@@ -17,7 +67,7 @@ class MyApp extends StatelessWidget {
             primary: Color(0xFFFFE7ED),
           ),
           scaffoldBackgroundColor: Colors.white //Color(0xFF11061B),
-          ),
+      ),
       home: DefaultTabController(
         length: 3,
         child: Scaffold(
@@ -53,32 +103,42 @@ class MyApp extends StatelessWidget {
           ),
           body: SafeArea(
               child: Column(
-            //mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Center(
-                child: Container(
-                  //alignment: Alignment.center,
-                  margin: EdgeInsets.only(left: 10.0, top: 60.0),
-                  width: 270.0,
-                  height: 270.0,
-                  color: Color(0xFFD9F5FE),
-                ),
-              ),
-              SizedBox(
-                height: 20.0,
-              ),
-              Row(
-                children: [
-                  Container(
-                    width: 270.0,
-                    height: 150.0,
-                    // color: Color(0xFFFFE7ED),
-                    margin: EdgeInsets.only(left: 75.0),
-                    decoration: BoxDecoration(
-                        color: Color(0xFFFFE7ED),
-                        borderRadius: BorderRadius.circular(12.0)),
+                //mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+
+                  Center(
+                    child: pickedImage != null ? Image.file(pickedImage!, width:270.0, height:250.0, fit:BoxFit.contain): Container(
+                      //alignment: Alignment.center,
+                      margin: EdgeInsets.only(left: 10.0, top: 60.0),
+                      width: 270.0,
+                      height: 250.0,
+                      color: Color(0xFFD9F5FE),
+                    ),
+
                   ),
-                  /*SizedBox.expand(
+                  SizedBox(
+                    height: 15.0,
+                  ),
+                  Row(
+                    children: [
+                      Container(
+                          width: 270.0,
+                          height: 130.0,
+                          // color: Color(0xFFFFE7ED),
+                          margin: EdgeInsets.only(left: 75.0),
+                          decoration: BoxDecoration(
+                              color: Color(0xFFFFE7ED),
+                              borderRadius: BorderRadius.circular(12.0)),
+                          child: Align(
+                              alignment: Alignment.center,
+                              child: Text(scannedText, style: TextStyle(
+                                fontSize: 20.0,
+                                letterSpacing: 1.1,
+                                wordSpacing: 2.2,
+                                fontWeight: FontWeight.bold,
+                              )))
+                      ),
+                      /*SizedBox.expand(
                     child: DraggableScrollableSheet(
                       builder: (BuildContext context,
                           ScrollController scrollController) {
@@ -95,66 +155,90 @@ class MyApp extends StatelessWidget {
                       },
                     ),
                   ),*/
-                  SizedBox(
-                    width: 16.0,
-                  ),
-                  Container(
-                    //alignment: Alignment.bottomRight,
-                    margin: EdgeInsets.only(top: 62.0),
-                    //height: 350.0,
-                    //width: 55.0,
-                    color: Colors.white, //Color(0xFFD9F5FE),
-                    //child: Column(
-                    //children: [
-                    child: Column(
-                      children: [
-                        DecoratedIcon(
-                          Icons.photo,
-                          color: Color(0xFFD9F5FE), //Colors.purple,
-                          size: 50.0,
-                          shadows: [
-                            BoxShadow(
-                              blurRadius: 42.0,
-                              color: Colors.black,
+                      SizedBox(
+                        width: 16.0,
+                      ),
+                      Container(
+                        //alignment: Alignment.bottomRight,
+                        margin: EdgeInsets.only(top: 62.0),
+                        //height: 350.0,
+                        //width: 55.0,
+                        color: Colors.white, //Color(0xFFD9F5FE),
+                        //child: Column(
+                        //children: [
+                        child: Column(
+                          children: [
+                            IconButton(
+                                onPressed: () async {
+                                  final ImagePicker _picker = ImagePicker();
+                                  final File image =
+                                  await ImagePicker.pickImage(source: ImageSource.camera);
+                                  if (image != null) {
+                                    pickedImage = File(image.path);
+                                    setState(() {
+                                      isPicked = true;
+                                    });
+                                    getText(image);
+                                  }
+                                },
+                                icon: const Icon(Icons.camera_alt,
+                                )
                             ),
-                            BoxShadow(
-                              blurRadius: 12.0,
-                              color: Colors.white,
+                            SizedBox(
+                              width: 16.0,
+                              height: 16.0,
                             ),
-                          ],
-                        ),
+                            IconButton(
+                                onPressed: () async {
+                                  final ImagePicker _picker = ImagePicker();
+                                  final File image =
+                                  await ImagePicker.pickImage(source: ImageSource.gallery);
+                                  if (image != null) {
+                                    pickedImage = File(image.path);
+                                    setState(() {
+                                      isPicked = true;
+                                    });
+                                    getText(image);
+                                  }
+                                  else {
+                                    return;
+                                  }
+                                },
+                                icon: const Icon(Icons.image,
+                                )
+                            )
 
-                        /*Icon(
+                            /*Icon(
                         Icons.photo,
                         color: Colors.blueAccent,
                       ),*/
-                        SizedBox(
-                          height: 32.0,
-                        ),
-                        DecoratedIcon(
-                          Icons.camera_alt,
-                          color: Color(0xFFD9F5FE),
-                          size: 50.0,
-                          shadows: [
-                            BoxShadow(
-                              blurRadius: 42.0,
-                              color: Colors.black,
-                            ),
-                            BoxShadow(
-                              blurRadius: 12.0,
-                              color: Colors.white,
-                            ),
+
                           ],
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
+                  GoogleSearch(searchText: scannedText,)
                 ],
-              ),
-            ],
-          )),
+              )),
         ),
       ),
     );
   }
+  void getText(File img) async {
+    final inputImage = InputImage.fromFilePath(img.path);
+    final textDetector = GoogleMlKit.vision.textDetector();
+    RecognisedText recognisedText = await textDetector.processImage(inputImage);
+    await textDetector.close();
+    scannedText = "";
+    for(TextBlock block in recognisedText.blocks) {
+      for(TextLine line in block.lines) {
+        scannedText = scannedText + " " + line.text + "\n";
+
+      }
+    }
+    textScanning = false;
+    setState(() { });
+  }
+
 }
