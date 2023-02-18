@@ -7,5 +7,10 @@ Text Recognition App
 - Optional(Search on Google)
 
 
-Text recognition functionality - Google ML Kit
-Search on Google functionality - url launcher
+#Features
+- UI Design
+- Sign up / Log In page
+- History
+- Data syncing
+- Text recognition functionality - Google ML Kit
+- Search on Google functionality - url launcher
