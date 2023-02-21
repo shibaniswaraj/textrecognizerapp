@@ -46,7 +46,7 @@ class _textState extends State<text> {
             padding: EdgeInsets.only(left: 15.0, right: 15.0, top: 15.0, bottom: 15.0),
             child: Expanded(
               child: SingleChildScrollView(
-                child: Text(scannedtext, style: TextStyle(color: Colors.black, fontSize: 20.0),),
+                child: scannedtext != "" ? Text(scannedtext, style: TextStyle(color: Colors.black, fontSize: 20.0),):Text("Upload image with text first.", style: TextStyle(color: Colors.grey, fontSize: 20.0),),
               ),
             ),
           ),
