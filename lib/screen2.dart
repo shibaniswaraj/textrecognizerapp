@@ -15,11 +15,11 @@ class Screen2 extends StatefulWidget {
   @override
   State<Screen2> createState() => _Screen2State();
 }
-
+String scannedtext = "";
 class _Screen2State extends State<Screen2> {
   bool textscanning = false;
-  File? imageFile;
-  String scannedtext = "";
+  File? pickedimage;
+  final ImagePicker _picker = ImagePicker();
 
   @override
   Widget build(BuildContext context) {
@@ -68,26 +68,26 @@ class _Screen2State extends State<Screen2> {
         ),
         body: SafeArea(
             child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            if (!textscanning && imageFile == null)
-              Container(
-                //alignment: Alignment.center,
-                margin: EdgeInsets.only(left: 66.0),
-                width: 270.0,
-                height: 460.0,
-                color: Color(0xFFD9F5FE),
-              ),
-            if (imageFile != null)
-              Image.file(imageFile!,
-                  width: 270.0, height: 460.0, fit: BoxFit.fitWidth),
-            //Image.file(File(imageFile!.path,
-            // width: 270.0, height: 250.0, fit: BoxFit.contain)),
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                if (!textscanning && pickedimage == null)
+                  Container(
+                    //alignment: Alignment.center,
+                    margin: EdgeInsets.only(left: 66.0),
+                    width: 270.0,
+                    height: 460.0,
+                    color: Color(0xFFD9F5FE),
+                  ),
+                if (pickedimage != null)
+                  Image.file(pickedimage!,
+                      width: 270.0, height: 460.0, fit: BoxFit.fitWidth),
+                //Image.file(File(imageFile!.path,
+                // width: 270.0, height: 250.0, fit: BoxFit.contain)),
 
-            /*SizedBox(
+                /*SizedBox(
               height: 20.0,
             ),*/
-            /*Row(
+                /*Row(
               children: [
                 Container(
                   width: 270.0,
@@ -98,7 +98,7 @@ class _Screen2State extends State<Screen2> {
                       color: Color(0xFFFFE7ED),
                       borderRadius: BorderRadius.circular(12.0)),
                 ),*/
-            /*SizedBox.expand(
+                /*SizedBox.expand(
                     child: DraggableScrollableSheet(
                       builder: (BuildContext context,
                           ScrollController scrollController) {
@@ -115,103 +115,121 @@ class _Screen2State extends State<Screen2> {
                       },
                     ),
                   ),*/
-            //SizedBox(
-            //width: 10.0,
-            //),
-            Container(
-              alignment: Alignment.bottomRight,
-              margin: EdgeInsets.only(top: 400.0, left: 20.0),
-              height: 350.0,
-              width: 55.0,
-              color: Colors.white, //Color(0xFFD9F5FE),
-              child: Column(
-                children: [
-                  IconButton(
-                    onPressed: () {
-                      getimage();
-                    },
-                    iconSize: 45.0,
-                    icon: DecoratedIcon(
-                      Icons.photo,
-                      color: Color(0xFFD9F5FE), //Colors.purple,
-                      //size: 30.0,
-                      shadows: [
-                        BoxShadow(
-                          blurRadius: 42.0,
-                          color: Colors.black,
-                        ),
-                        BoxShadow(
-                          blurRadius: 12.0,
-                          color: Colors.white,
-                        ),
-                      ],
-                    ),
-                  ),
+                //SizedBox(
+                //width: 10.0,
+                //),
+                Container(
+                  alignment: Alignment.bottomRight,
+                  margin: EdgeInsets.only(top: 400.0, left: 20.0),
+                  height: 350.0,
+                  width: 55.0,
+                  color: Colors.white,
+                  //Color(0xFFD9F5FE),
+                  child: Column(
+                    children: [
+                      IconButton(
+                        onPressed: () async {
+                          try {
+                            final XFile? image = await _picker.pickImage(
+                              source: ImageSource.gallery,
+                            );
+                            if (image != null) {
+                              textscanning = true;
+                              pickedimage = File(image.path);
 
-                  /*Icon(
+                              setState(() {});
+                              // final File? imagefile=File(imageFile!.path),
+                            }
+                          } catch (e) {
+                            textscanning = false;
+                            pickedimage = null;
+                            setState(() {});
+                            scannedtext = "Error occurred while scanning";
+                          }
+                          setState(() {
+                            getRecognizedText(pickedimage!);
+                          });
+                        },
+                        iconSize: 45.0,
+                        icon: DecoratedIcon(
+                          Icons.photo,
+                          color: Color(0xFFD9F5FE), //Colors.purple,
+                          //size: 30.0,
+                          shadows: [
+                            BoxShadow(
+                              blurRadius: 42.0,
+                              color: Colors.black,
+                            ),
+                            BoxShadow(
+                              blurRadius: 12.0,
+                              color: Colors.white,
+                            ),
+                          ],
+                        ),
+                      ),
+
+                      /*Icon(
                         Icons.photo,
                         color: Colors.blueAccent,
                       ),*/
-                  SizedBox(
-                    height: 32.0,
-                  ),
-                  IconButton(
-                    onPressed: () {},
-                    iconSize: 45.0,
-                    icon: DecoratedIcon(
-                      Icons.camera_alt,
-                      color: Color(0xFFD9F5FE),
-                      // size: 50.0,
-                      shadows: [
-                        BoxShadow(
-                          blurRadius: 42.0,
-                          color: Colors.black,
+                      SizedBox(
+                        height: 32.0,
+                      ),
+                      IconButton(
+                        onPressed: () async {
+                          try {
+                            final XFile? image = await _picker.pickImage(
+                              source: ImageSource.camera,
+                            );
+                            if (image != null) {
+                              textscanning = true;
+                              pickedimage = File(image.path);
+
+                              setState(() {});
+                              // final File? imagefile=File(imageFile!.path),
+                            }
+                          } catch (e) {
+                            textscanning = false;
+                            pickedimage = null;
+                            setState(() {});
+                            scannedtext = "Error occurred while scanning";
+                          }
+                          getRecognizedText(pickedimage!);
+                        },
+                        iconSize: 45.0,
+                        icon: DecoratedIcon(
+                          Icons.camera_alt,
+                          color: Color(0xFFD9F5FE),
+                          // size: 50.0,
+                          shadows: [
+                            BoxShadow(
+                              blurRadius: 42.0,
+                              color: Colors.black,
+                            ),
+                            BoxShadow(
+                              blurRadius: 12.0,
+                              color: Colors.white,
+                            ),
+                          ],
                         ),
-                        BoxShadow(
-                          blurRadius: 12.0,
-                          color: Colors.white,
-                        ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
-                ],
-              ),
-              // ],
-              //),//
-            ),
-          ],
-        )),
+                  // ],
+                  //),//
+                ),
+              ],
+            )),
       ),
     );
   }
 
-  void getimage() async {
-    try {
-      final File pickedimage =
-          await ImagePicker.pickImage(source: ImageSource.gallery);
-
-      if (pickedimage != null) {
-        textscanning = true;
-        imageFile = File(pickedimage.path);
-
-        setState(() {});
-        // final File? imagefile=File(imageFile!.path),
-      }
-    } catch (e) {
-      textscanning = false;
-      imageFile = null;
-      setState(() {});
-      scannedtext = "Error occurred while scanning";
-    }
-  }
-
-  void getRecognizedText(File img) async {
-    final inputImage = InputImage.fromFilePath(img.path);
-    final textDetector = GoogleMlKit.vision.textDetector();
-    RecognisedText recognizedtext = await textDetector.processImage(inputImage);
+  Future<void> getRecognizedText(File img) async {
+    final inputImage = InputImage.fromFile(img);
+    final textDetector = GoogleMlKit.vision.textRecognizer();
+    RecognizedText recognizedText = await textDetector.processImage(inputImage);
     await textDetector.close();
-    scannedtext = " ";
-    for (TextBlock block in recognizedtext.blocks) {
+    for (TextBlock block in recognizedText.blocks) {
       for (TextLine line in block.lines) {
         scannedtext = scannedtext + " " + line.text + "\n";
       }
@@ -219,4 +237,5 @@ class _Screen2State extends State<Screen2> {
     textscanning = false;
     setState(() {});
   }
+
 }
