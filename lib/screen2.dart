@@ -148,6 +148,7 @@ class _Screen2State extends State<Screen2> {
                             scannedtext = "Error occurred while scanning";
                           }
                           setState(() {
+                            scannedtext = "";
                             getRecognizedText(pickedimage!);
                           });
                         },
@@ -195,7 +196,10 @@ class _Screen2State extends State<Screen2> {
                             setState(() {});
                             scannedtext = "Error occurred while scanning";
                           }
-                          getRecognizedText(pickedimage!);
+                          setState(() {
+                            scannedtext = "";
+                            getRecognizedText(pickedimage!);
+                          });
                         },
                         iconSize: 45.0,
                         icon: DecoratedIcon(

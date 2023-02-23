@@ -1,10 +1,11 @@
 import 'dart:io';
-import 'package:qr_code_scanner/qr_code_scanner.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:url_launcher/url_launcher_string.dart';
+
 import 'QrCodePage.dart';
 import 'screen2.dart';
 import 'dart:ui';
@@ -68,7 +69,7 @@ class _textState extends State<text> {
           floatingActionButton: Stack(
             children: [
               Positioned(
-                bottom: 146.0,
+                bottom: 80.0,
                 right: 16.0,
                 child: FloatingActionButton(
                   onPressed: () {
@@ -78,7 +79,7 @@ class _textState extends State<text> {
                 ),
               ),
               Positioned(
-                bottom: 80.0,
+                bottom: 16.0,
                 right: 16.0,
                 child: FloatingActionButton(
                   onPressed: () {
@@ -88,16 +89,7 @@ class _textState extends State<text> {
                   child: Icon(Icons.qr_code),
                 ),
               ),
-              Positioned(
-                bottom: 16.0,
-                right: 16.0,
-                child: FloatingActionButton(
-                  onPressed: () {
 
-                  },
-                  child: Icon(Icons.qr_code_scanner),
-                ),
-              ),
             ],
           ),
           // floatingActionButton:
