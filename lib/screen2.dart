@@ -73,8 +73,8 @@ class _Screen2State extends State<Screen2> {
               children: <Widget>[
                 if (!textscanning && pickedimage == null)
                   Container(
-                    //alignment: Alignment.center,
-                    margin: EdgeInsets.only(left: 66.0),
+                    alignment: Alignment.center,
+                    //margin: EdgeInsets.only(left: 66.0),
                     width: 270.0,
                     height: 460.0,
                     color: Color(0xFFD9F5FE),
