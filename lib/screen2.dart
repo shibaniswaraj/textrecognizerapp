@@ -10,14 +10,14 @@ import 'main.dart';
 import 'package:flutter/material.dart';
 import 'package:decorated_icon/decorated_icon.dart';
 
-class Screen2 extends StatefulWidget {
-  const Screen2({Key? key}) : super(key: key);
+class screen2 extends StatefulWidget {
+  const screen2({Key? key}) : super(key: key);
 
   @override
-  State<Screen2> createState() => _Screen2State();
+  State<screen2> createState() => _screen2State();
 }
 String scannedtext = "";
-class _Screen2State extends State<Screen2> {
+class _screen2State extends State<screen2> {
   bool textscanning = false;
   File? pickedimage;
   final ImagePicker _picker = ImagePicker();

@@ -14,10 +14,22 @@ class QrCodePage extends StatelessWidget {
         title: Text("QR Code"),
       ),
       body: Center(
-        child: QrImage(
-          data: scannedtext,
-          version: QrVersions.auto,
-          size: 200.0,
+
+        child: InteractiveViewer(
+          minScale: 1,
+          maxScale: 3,
+          child: Container(
+            color: Color(0xFFFFE7ED),
+            alignment: Alignment.center,
+            width: double.infinity,
+            height: double.infinity,
+            child: QrImage(
+              backgroundColor: Colors.white,
+              data: scannedtext,
+              version: QrVersions.auto,
+              size: 200.0,
+            ),
+          ),
         ),
       ),
     );

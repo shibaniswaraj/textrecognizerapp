@@ -70,22 +70,34 @@ class _textState extends State<text> {
               Positioned(
                 bottom: 80.0,
                 right: 16.0,
-                child: FloatingActionButton(
+                child: FloatingActionButton.extended(
+                  label: Text("Copy to Clipboard"),
+                  icon: Icon(Icons.copy),
+                  backgroundColor: Colors.deepPurple,
+                  focusColor: Colors.white,
+                  splashColor: Colors.white ,
+                  foregroundColor: Colors.white,
+                  hoverColor: Colors.white,
                   onPressed: () {
                     Clipboard.setData(ClipboardData(text: scannedtext));
                   },
-                  child: Icon(Icons.copy),
                 ),
               ),
               Positioned(
                 bottom: 16.0,
                 right: 16.0,
-                child: FloatingActionButton(
+                child: FloatingActionButton.extended(
+                  label: Text("Generate QR Code"),
+                  icon: Icon(Icons.qr_code),
+                  backgroundColor: Colors.deepPurple,
+                  focusColor: Colors.white,
+                  splashColor: Colors.white ,
+                  foregroundColor: Colors.white,
+                  hoverColor: Colors.white,
                   onPressed: () {
                     Navigator.push(
                         context, MaterialPageRoute(builder: (context) => QrCodePage()));
                   },
-                  child: Icon(Icons.qr_code),
                 ),
               ),
 

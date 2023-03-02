@@ -2,8 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:textrecognizer/login.dart';
 import 'package:textrecognizer/splashscreen.dart';
 import 'screen2.dart';
-
-void main() {
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
+void main() async{
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(MyApp());
 }
 

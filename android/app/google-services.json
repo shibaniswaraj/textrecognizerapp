@@ -1,33 +1,33 @@
 {
   "project_info": {
-    "project_number": "681752108908",
-    "project_id": "text-recognizer-ccf3d",
-    "storage_bucket": "text-recognizer-ccf3d.appspot.com"
+    "project_number": "305741922188",
+    "project_id": "textagram2-592d8",
+    "storage_bucket": "textagram2-592d8.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:681752108908:android:2a1550be0c6eed38f09d49",
+        "mobilesdk_app_id": "1:305741922188:android:97561313905b3d66e620a9",
         "android_client_info": {
           "package_name": "com.example.textrecognizer"
         }
       },
       "oauth_client": [
         {
-          "client_id": "681752108908-384jconhomdejphgsph8ms7ga1qt79rv.apps.googleusercontent.com",
+          "client_id": "305741922188-h07tj2ciga0bg6s41bpga8viu9f6q50r.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyDcNIi9QFu30jSWe5iNtPCPO5HAuL31rng"
+          "current_key": "AIzaSyC_1oHJUtAuLGC4uz7fiKnTFn30Tb8Y7Ok"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "681752108908-384jconhomdejphgsph8ms7ga1qt79rv.apps.googleusercontent.com",
+              "client_id": "305741922188-h07tj2ciga0bg6s41bpga8viu9f6q50r.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
