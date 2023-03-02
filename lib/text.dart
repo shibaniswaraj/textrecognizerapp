@@ -1,5 +1,5 @@
 import 'dart:io';
-
+import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:qr_flutter/qr_flutter.dart';
@@ -35,13 +35,12 @@ class _textState extends State<text> {
           appBar: AppBar(
             elevation: 2.0,
             shadowColor: Colors.black,
-            title: const Text(
-              "Textagram",
-              textAlign: TextAlign.left,
-              style: TextStyle(
-                  fontFamily: 'RubikVinyl',
-                  fontSize: 30.0,
-                  color: Colors.black),
+            title:  Center(
+              child: Text(
+                "Textagram",
+                textAlign: TextAlign.left,
+                  style: GoogleFonts.bebasNeue(fontSize: 40)
+              ),
             ),
             actions: [
               TextButton(
@@ -58,7 +57,7 @@ class _textState extends State<text> {
             margin: const EdgeInsets.only(left: 15.0, right: 15.0, top: 15.0, bottom: 15.0),
             width: double.infinity,
             height: double.infinity,
-            color: const Color(0xFFFFE7ED),
+            color: Colors.grey[400],//const Color(0xFFFFE7ED),
             padding: const EdgeInsets.only(left: 15.0, right: 15.0, top: 15.0, bottom: 15.0),
             //child: Expanded(
               child: ListView(

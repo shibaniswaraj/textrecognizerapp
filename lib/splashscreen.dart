@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:textrecognizer/main_page.dart';
 import 'main.dart';
 import 'login.dart';
 
@@ -19,7 +20,7 @@ class _splashscreenState extends State<splashscreen> {
   _navigatelogin() async {
     await Future.delayed(Duration(milliseconds: 2500), () {});
     Navigator.pushReplacement(
-        context, MaterialPageRoute(builder: (context) => loginpage()));
+        context, MaterialPageRoute(builder: (context) => mainpage()));
   }
 
   Widget build(BuildContext context) {
@@ -28,11 +29,11 @@ class _splashscreenState extends State<splashscreen> {
       width: double.infinity,
       decoration: BoxDecoration(
         gradient:
-            LinearGradient(colors: [Color(0xFFD9F5FE), Color(0xFFFFE7ED)]),
+            LinearGradient(colors:[Colors.grey,Colors.deepPurple]),//Color(0xFFD9F5FE), Color(0xFFFFE7ED)]),
       ),
       child: Center(
         child: Image.asset(
-          'image/logo.jfif',
+          'image/camera.png',
           height: 110.0,
           width: 110.0,
         ),

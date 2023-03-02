@@ -5,6 +5,9 @@ import 'package:image_picker/image_picker.dart';
 import 'dart:async';
 import 'package:flutter/foundation.dart';
 import 'package:qr_flutter/qr_flutter.dart';
+import 'package:flutter/services.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'dart:ui';
 
 import 'main.dart';
 import 'package:flutter/material.dart';
@@ -31,12 +34,13 @@ class _screen2State extends State<screen2> {
           //toolbarHeight: 140.0,
           elevation: 2.0,
           shadowColor: Colors.black,
-          title: Text(
-            "Textagram",
-            textAlign: TextAlign.left,
-            style: TextStyle(
-                fontFamily: 'RubikVinyl', fontSize: 30.0, color: Colors.black),
+          title: Center(
+            child: Text(
+              "Textagram",
+              textAlign: TextAlign.center,
+              style:  GoogleFonts.bebasNeue(fontSize: 46,color: Colors.white)),
           ),
+
           actions: [
             TextButton(
               onPressed: () {
@@ -45,13 +49,13 @@ class _screen2State extends State<screen2> {
               },
               child: Text(
                 'Scan',
-                style: TextStyle(color: Color(0xFF2F002C)),
+                style: TextStyle(color: Colors.grey),//Color(0xFF2F002C)),
               ),
             )
           ],
           bottom: TabBar(
-            unselectedLabelColor: Color(0xFF2F002C),
-            labelColor: Color(0xFF8F09A2),
+            unselectedLabelColor: Colors.grey,//Color(0xFF2F002C),
+            labelColor: Colors.white,//Color(0xFF8F09A2),
             tabs: [
               Tab(
                 text: "Photo",
@@ -73,15 +77,15 @@ class _screen2State extends State<screen2> {
               children: <Widget>[
                 if (!textscanning && pickedimage == null)
                   Container(
+                    margin: EdgeInsets.only(top: 95.0),
                     alignment: Alignment.center,
                     //margin: EdgeInsets.only(left: 66.0),
-                    width: 270.0,
-                    height: 460.0,
-                    color: Color(0xFFD9F5FE),
+                    width: 290.0,
+                    height: 490.0,
+                    color: Colors.deepPurple//Color(0xFFD9F5FE),
                   ),
                 if (pickedimage != null)
-                  Image.file(pickedimage!,
-                      width: 270.0, height: 460.0, fit: BoxFit.fitWidth),
+                 Image.file(pickedimage!,width: 270.0,height: 460.0,fit: BoxFit.fitWidth),
                 //Image.file(File(imageFile!.path,
                 // width: 270.0, height: 250.0, fit: BoxFit.contain)),
 
@@ -119,7 +123,7 @@ class _screen2State extends State<screen2> {
                 //SizedBox(
                 //width: 10.0,
                 //),
-                Container(
+                /*Container(
                   alignment: Alignment.bottomRight,
                   margin: EdgeInsets.only(top: 400.0, left: 20.0),
                   height: 350.0,
@@ -222,9 +226,119 @@ class _screen2State extends State<screen2> {
                   ),
                   // ],
                   //),//
-                ),
+                ),*/
               ],
-            )),
+            ),
+
+        ),
+        floatingActionButton: Stack(
+          children: [
+            Positioned(
+              bottom: 80.0,
+              right: 5.0,
+              child: FloatingActionButton(
+                onPressed: () async {
+                  try {
+                    final XFile? image = await _picker.pickImage(
+                      source: ImageSource.gallery,
+                    );
+                    if (image != null) {
+                      textscanning = true;
+                      pickedimage = File(image.path);
+
+                      setState(() {});
+                      // final File? imagefile=File(imageFile!.path),
+                    }
+                  } catch (e) {
+                    textscanning = false;
+                    pickedimage = null;
+                    setState(() {});
+                    scannedtext = "Error occurred while scanning";
+                  }
+                  setState(() {
+                    scannedtext = "";
+                    getRecognizedText(pickedimage!);
+                  });
+                },
+
+                child:  DecoratedIcon(
+                  Icons.photo,
+                  color: Colors.grey[300], //Colors.purple,
+                  //size: 30.0,
+                  shadows: [
+                    BoxShadow(
+                      blurRadius: 42.0,
+                      color: Colors.black,
+                    ),
+                    BoxShadow(
+                      blurRadius: 12.0,
+                      color: Colors.white,
+                    ),
+                  ],
+                ),//Icon(Icons.copy),
+                backgroundColor: Colors.deepPurple,
+                focusColor: Colors.white,
+                splashColor: Colors.white ,
+                foregroundColor: Colors.white,
+                hoverColor: Colors.white,
+
+
+              ),
+            ),
+            Positioned(
+              bottom: 16.0,
+              right: 5.0,
+              child: FloatingActionButton(
+                onPressed: () async {
+                  try {
+                    final XFile? image = await _picker.pickImage(
+                      source: ImageSource.camera,
+                    );
+                    if (image != null) {
+                      textscanning = true;
+                      pickedimage = File(image.path);
+
+                      setState(() {});
+                      // final File? imagefile=File(imageFile!.path),
+                    }
+                  } catch (e) {
+                    textscanning = false;
+                    pickedimage = null;
+                    setState(() {});
+                    scannedtext = "Error occurred while scanning";
+                  }
+                  setState(() {
+                    scannedtext = "";
+                    getRecognizedText(pickedimage!);
+                  });
+                },
+
+                child:  DecoratedIcon(
+                  Icons.camera_alt,
+                  color: Colors.grey[300],
+                  // size: 50.0,
+                  shadows: [
+                    BoxShadow(
+                      blurRadius: 42.0,
+                      color: Colors.black,
+                    ),
+                    BoxShadow(
+                      blurRadius: 12.0,
+                      color: Colors.white,
+                    ),
+                  ],
+                ),//Icon(Icons.qr_code),
+                backgroundColor: Colors.deepPurple,
+                focusColor: Colors.white,
+                splashColor: Colors.white ,
+                foregroundColor: Colors.white,
+                hoverColor: Colors.white,
+
+              ),
+            ),
+
+          ],
+        ),
       ),
     );
   }
@@ -243,4 +357,7 @@ class _screen2State extends State<screen2> {
     setState(() {});
   }
 
+}
+
+fullScreenWidget() {
 }

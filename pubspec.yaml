@@ -68,6 +68,7 @@ flutter:
   uses-material-design: true
   assets:
     - image/logo.jfif
+    - image/camera.png
 
   fonts:
     - family: RubikVinyl

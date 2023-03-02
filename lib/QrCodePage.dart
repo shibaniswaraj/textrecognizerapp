@@ -19,7 +19,7 @@ class QrCodePage extends StatelessWidget {
           minScale: 1,
           maxScale: 3,
           child: Container(
-            color: Color(0xFFFFE7ED),
+            color: Colors.grey[300],//Color(0xFFFFE7ED),
             alignment: Alignment.center,
             width: double.infinity,
             height: double.infinity,

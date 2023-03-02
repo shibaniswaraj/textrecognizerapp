@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:textrecognizer/login.dart';
+import 'dart:ui';
 import 'package:textrecognizer/splashscreen.dart';
 import 'screen2.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -19,9 +20,9 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       theme: ThemeData(
           colorScheme: ColorScheme.light().copyWith(
-            primary: Color(0xFFFFE7ED),
+            primary: Colors.deepPurple,
           ),
-          scaffoldBackgroundColor: Colors.white //Color(0xFF11061B),
+          scaffoldBackgroundColor: Colors.grey[300] //Color(0xFF11061B),
           ),
       home: splashscreen(),
     );

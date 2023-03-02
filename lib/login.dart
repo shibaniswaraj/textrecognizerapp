@@ -16,6 +16,19 @@ class _loginpageState extends State<loginpage> {
 
  final _emailcontroller= TextEditingController();
  final _passwordcontroller=TextEditingController();
+
+ Future signIn() async{
+   await FirebaseAuth.instance.signInWithEmailAndPassword(
+       email: _emailcontroller.text.trim(),
+       password: _passwordcontroller.text.trim());
+ }
+ @override
+  void dispose() {
+    // TODO: implement dispose
+   _emailcontroller.dispose();
+   _passwordcontroller.dispose();
+    super.dispose();
+  }
  @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -82,26 +95,26 @@ class _loginpageState extends State<loginpage> {
                ),
                SizedBox(
                  height:
-                 10.0,
+                 15.0,
                ),
                Padding(
                  padding: const EdgeInsets.symmetric(horizontal: 25.0),
-                 child: Container(
-
-                 padding: EdgeInsets.all(20.0),
-                 decoration: BoxDecoration(
-                   color: Colors.deepPurple,
-                   borderRadius: BorderRadius.circular(12.0),
-                 ),
-                 child: TextButton(
-                   onPressed: (){
-                     scannedtext = "";
-                     Navigator.push(
-                         context, MaterialPageRoute(builder: (context) => screen2()));
-                   },
-                   child: Text('Login',
-                 style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 18.0),),
-               ),),),
+                 child: GestureDetector(
+                   onTap: signIn,
+                   child: Container(
+                          width: 450.0,
+                   height: 65,
+                   padding: EdgeInsets.all(10.0),
+                   decoration: BoxDecoration(
+                     color: Colors.deepPurple,
+                     borderRadius: BorderRadius.circular(12.0),
+                   ),
+                   child: Center(
+                     child: Text('Login',
+                     style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 18.0),),
+                   ),
+               ),
+                 ),),
                SizedBox(
                  height: 10.0,
                ),
